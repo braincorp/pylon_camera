@@ -268,6 +268,9 @@ bool PylonCameraNode::startGrabbing()
     setupInitialCameraInfo(initial_cam_info);
     camera_info_manager_->setCameraInfo(initial_cam_info);
 
+
+    pylon_camera_->set_pgi_mode(pylon_camera_parameter_set_);
+
     if ( pylon_camera_parameter_set_.cameraInfoURL().empty() ||
          !camera_info_manager_->validateURL(pylon_camera_parameter_set_.cameraInfoURL()) )
     {

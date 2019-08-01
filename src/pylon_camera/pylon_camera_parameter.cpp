@@ -39,6 +39,10 @@ PylonCameraParameter::PylonCameraParameter() :
         frame_rate_(5.0),
         camera_info_url_(""),
         image_encoding_(""),
+        balance_white_(""),
+        pgi_(false),
+        noice_reduction_(0.0),
+        sharpness_enhancement_(1.0),
         binning_x_(1),
         binning_y_(1),
         binning_x_given_(false),
@@ -143,6 +147,30 @@ void PylonCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
             encoding = std::string("");
         }
         image_encoding_ = encoding;
+    }
+
+    if ( nh.hasParam("balance_white") )
+    {
+        nh.getParam("balance_white", balance_white_);
+        std::cout << "balance white is given and has value " << balance_white_ << std::endl;
+    }
+
+    if ( nh.hasParam("pgi") )
+    {
+        nh.getParam("pgi", pgi_);
+        std::cout << "PGI is on" << std::endl;
+
+        if ( nh.hasParam("noice_reduction") )
+        {
+            nh.getParam("noice_reduction", noice_reduction_);
+            std::cout << "noice reduction set to" << noice_reduction_ << std::endl;
+        }
+
+        if ( nh.hasParam("sharpness_enhancement") )
+        {
+            nh.getParam("sharpness_enhancement", sharpness_enhancement_);
+            std::cout << "sharpness enhancement set to" << sharpness_enhancement_ << std::endl;
+        }
     }
 
     // ##########################
@@ -334,6 +362,11 @@ std::string PylonCameraParameter::shutterModeString() const
 const std::string& PylonCameraParameter::imageEncoding() const
 {
     return image_encoding_;
+}
+
+const std::string& PylonCameraParameter::balanceWhite() const
+{
+    return balance_white_;
 }
 
 const std::string& PylonCameraParameter::cameraFrame() const

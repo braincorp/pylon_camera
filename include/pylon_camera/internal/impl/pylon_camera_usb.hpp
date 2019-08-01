@@ -43,6 +43,7 @@ namespace pylon_camera
 struct USBCameraTrait
 {
     typedef Pylon::CBaslerUsbInstantCamera CBaslerInstantCameraT;
+    typedef Basler_UsbCameraParams::BalanceWhiteAutoEnums BalanceWhiteAutoEnums;
     typedef Basler_UsbCameraParams::ExposureAutoEnums ExposureAutoEnums;
     typedef Basler_UsbCameraParams::GainAutoEnums GainAutoEnums;
     typedef Basler_UsbCameraParams::PixelFormatEnums PixelFormatEnums;
@@ -66,6 +67,12 @@ bool PylonUSBCamera::applyCamSpecificStartupSettings(const PylonCameraParameter&
 {
     try
     {
+        if ( GenApi::IsAvailable(cam_->BalanceWhiteAuto) )
+        {
+            // Make sure BalanceWhite is off, otherwise the camera might fail to start
+            cam_->BalanceWhiteAuto.SetValue(Basler_UsbCameraParams::BalanceWhiteAuto_Off);
+        }
+
         // Remove all previous settings (sequencer etc.)
         // Default Setting = Free-Running
         cam_->UserSetSelector.SetValue(Basler_UsbCameraParams::UserSetSelector_Default);
@@ -126,6 +133,59 @@ bool PylonUSBCamera::applyCamSpecificStartupSettings(const PylonCameraParameter&
         return false;
     }
     return true;
+}
+
+
+template <>
+void PylonUSBCamera::set_pgi_mode(const PylonCameraParameter& parameters)
+{
+    if ( parameters.pgi_ )
+    {
+        if ( parameters.imageEncoding().rfind("bayer", 0) == 0 )
+        {
+            ROS_WARN_STREAM("encoding " << parameters.imageEncoding()
+                    << "does not support PGI and will not be enabled");
+            return;
+        }
+
+        try
+        {
+            // Enable the PGI feature set
+            if ( parameters.imageEncoding().rfind("mono", 0) == 0 )
+            {
+                if ( GenApi::IsAvailable(cam_->PgiMode) )
+                {
+                    cam_->PgiMode.SetValue(Basler_UsbCameraParams::PgiMode_On);
+                }
+                else
+                {
+                    ROS_ERROR_STREAM("Camera does not support PGI");
+                    return;
+                }
+            }
+            else
+            {
+                if ( GenApi::IsAvailable(cam_->DemosaicingMode) )
+                {
+                    cam_->DemosaicingMode.SetValue(Basler_UsbCameraParams::DemosaicingMode_BaslerPGI);
+                }
+                else
+                {
+                    ROS_ERROR_STREAM("Camera does not support PGI");
+                    return;
+                }
+            }
+            // Configure noise reduction (if available)
+            cam_->NoiseReduction.SetValue(parameters.noice_reduction_);
+            cam_->SharpnessEnhancement.SetValue(parameters.sharpness_enhancement_);
+        }
+        catch ( const GenICam::GenericException &e )
+        {
+            ROS_ERROR_STREAM("Error while configuring PGI: " << parameters.imageEncoding()
+                    << e.GetDescription());
+            return;
+        }
+    }
 }
 
 template <>

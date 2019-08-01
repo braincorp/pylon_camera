@@ -19,6 +19,11 @@ camera_info_url: ""
 #  Default values are 'mono8' and 'rgb8'
 # image_encoding: "mono8"
 
+#  Mode of white balance.
+#  The supported modes are "continuous", "once" or "off"
+#  Default value is "" (empty) means default_balance_white_mode
+# balance_white: "continuous"
+
 #  Binning factor to get downsampled images. It refers here to any camera
 #  setting which combines rectangular neighborhoods of pixels into larger
 #  "super-pixels." It reduces the resolution of the output image to
@@ -37,6 +42,11 @@ frame_rate: 5.0
 #  The supported modes are "rolling", "global" and "global_reset"
 #  Default value is "" (empty) means default_shutter_mode
 #shutter_mode: ""
+
+#  The pgi flag indicates that PGI will be used (Mono: PGI mode to on, color: DemosaicingMode to BaslerPGI)
+# pgi: true
+# noice_reduction: 0.0
+# sharpness_enhancement: 1.0
 
 ##########################################################################
 ######################## Image Intensity Settings ########################

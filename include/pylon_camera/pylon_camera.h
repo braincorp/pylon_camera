@@ -99,6 +99,8 @@ public:
      */
     virtual bool applyCamSpecificStartupSettings(const PylonCameraParameter& parameters) = 0;
 
+    virtual void set_pgi_mode(const PylonCameraParameter& parameters) = 0;
+
     /**
      * Initializes the internal parameters of the PylonCamera instance.
      * @param parameters The PylonCameraParameter set to use
@@ -127,6 +129,12 @@ public:
      * @return
      */
     virtual bool setShutterMode(const pylon_camera::SHUTTER_MODE& mode) = 0;
+
+    /**
+     * Mode of white balance.
+       * @param balance_white the target white balance
+     */
+    virtual void setBalanceWhite(const std::string& balance_white) = 0;
 
     /**
      * Update area of interest in the camera image
