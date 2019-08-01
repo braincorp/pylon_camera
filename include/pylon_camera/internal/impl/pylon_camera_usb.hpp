@@ -43,6 +43,7 @@ namespace pylon_camera
 struct USBCameraTrait
 {
     typedef Pylon::CBaslerUsbInstantCamera CBaslerInstantCameraT;
+    typedef Basler_UsbCameraParams::BalanceWhiteAutoEnums BalanceWhiteAutoEnums;
     typedef Basler_UsbCameraParams::ExposureAutoEnums ExposureAutoEnums;
     typedef Basler_UsbCameraParams::GainAutoEnums GainAutoEnums;
     typedef Basler_UsbCameraParams::PixelFormatEnums PixelFormatEnums;
@@ -66,6 +67,12 @@ bool PylonUSBCamera::applyCamSpecificStartupSettings(const PylonCameraParameter&
 {
     try
     {
+        if ( GenApi::IsAvailable(cam_->BalanceWhiteAuto) )
+        {
+            // Make sure BalanceWhite is off, otherwise the camera might fail to start
+            cam_->BalanceWhiteAuto.SetValue(Basler_UsbCameraParams::BalanceWhiteAuto_Off);
+        }
+
         // Remove all previous settings (sequencer etc.)
         // Default Setting = Free-Running
         cam_->UserSetSelector.SetValue(Basler_UsbCameraParams::UserSetSelector_Default);

@@ -95,6 +95,11 @@ public:
     const std::string& imageEncoding() const;
 
     /**
+     * Getter for the balance_white_ read from ros-parameter server
+     */
+    const std::string& balanceWhite() const;
+
+    /**
      * Setter for the frame_rate_ initially set from ros-parameter server
      * The frame rate needs to be updated with the value the camera supports
      */
@@ -326,6 +331,13 @@ protected:
      * 'bayer_gbrg8', 'bayer_rggb8' and 'yuv422'
      */
     std::string image_encoding_;
+
+    /**
+     * Mode of white balance.
+     * The supported modes are "continuous", "once" or "off"
+     * Default value is "" (empty) means default_balance_white_mode
+     */
+    std::string balance_white_;
 };
 
 }  // namespace pylon_camera

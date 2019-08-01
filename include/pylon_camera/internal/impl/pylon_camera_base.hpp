@@ -331,6 +331,8 @@ bool PylonCameraImpl<CameraTraitT>::startGrabbing(const PylonCameraParameter& pa
             return false;
         }
 
+        setBalanceWhite(parameters.balanceWhite());
+
         cam_->StartGrabbing();
         user_output_selector_enums_ = detectAndCountNumUserOutputs();
         device_user_id_ = cam_->DeviceUserID.GetValue();
@@ -441,6 +443,43 @@ bool PylonCameraImpl<CameraTrait>::grab(Pylon::CGrabResultPtr& grab_result)
         return false;
     }
     return true;
+}
+
+template <typename CameraTraitT>
+void PylonCameraImpl<CameraTraitT>::setBalanceWhite(const std::string& target_balance_white)
+{
+    if ( !target_balance_white.empty() )
+    {
+        if ( GenApi::IsAvailable(cam_->BalanceWhiteAuto) )
+        {
+            BalanceWhiteAutoEnums balance_white;
+
+            if ( target_balance_white == "off" )
+            {
+                balance_white = BalanceWhiteAutoEnums::BalanceWhiteAuto_Off;
+            }
+            else if ( target_balance_white == "continuous" )
+            {
+                balance_white = BalanceWhiteAutoEnums::BalanceWhiteAuto_Continuous;
+            }
+            else if ( target_balance_white == "once" )
+            {
+                balance_white = BalanceWhiteAutoEnums::BalanceWhiteAuto_Once;
+            }
+            else
+            {
+                ROS_WARN_STREAM("Desired image encoding parameter: '" << balance_white
+                    << "' is not supported");
+                return;
+            }
+            cam_->BalanceWhiteAuto.SetValue(balance_white);
+        }
+        else
+        {
+            ROS_WARN_STREAM("Trying to enable BalanceWhiteAuto mode, but "
+                << "the camera has no Auto Balance White");
+        }
+    }
 }
 
 template <typename CameraTraitT>

@@ -39,6 +39,7 @@ PylonCameraParameter::PylonCameraParameter() :
         frame_rate_(5.0),
         camera_info_url_(""),
         image_encoding_(""),
+        balance_white_(""),
         binning_x_(1),
         binning_y_(1),
         binning_x_given_(false),
@@ -145,6 +146,11 @@ void PylonCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
         image_encoding_ = encoding;
     }
 
+    if ( nh.hasParam("balance_white") )
+    {
+        nh.getParam("balance_white", balance_white_);
+        std::cout << "balance white is given and has value " << balance_white_ << std::endl;
+    }
     // ##########################
     //  image intensity settings
     // ##########################
@@ -334,6 +340,11 @@ std::string PylonCameraParameter::shutterModeString() const
 const std::string& PylonCameraParameter::imageEncoding() const
 {
     return image_encoding_;
+}
+
+const std::string& PylonCameraParameter::balanceWhite() const
+{
+    return balance_white_;
 }
 
 const std::string& PylonCameraParameter::cameraFrame() const

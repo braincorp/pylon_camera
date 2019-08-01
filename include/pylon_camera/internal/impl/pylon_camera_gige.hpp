@@ -43,6 +43,7 @@ namespace pylon_camera
 struct GigECameraTrait
 {
     typedef Pylon::CBaslerGigEInstantCamera CBaslerInstantCameraT;
+    typedef Basler_GigECameraParams::BalanceWhiteAutoEnums BalanceWhiteAutoEnums;
     typedef Basler_GigECameraParams::ExposureAutoEnums ExposureAutoEnums;
     typedef Basler_GigECameraParams::GainAutoEnums GainAutoEnums;
     typedef Basler_GigECameraParams::PixelFormatEnums PixelFormatEnums;
@@ -125,6 +126,12 @@ bool PylonGigECamera::applyCamSpecificStartupSettings(const PylonCameraParameter
 {
     try
     {
+        if ( GenApi::IsAvailable(cam_->BalanceWhiteAuto) )
+        {
+            // Make sure BalanceWhite is off, otherwise the camera might fail to start
+            cam_->BalanceWhiteAuto.SetValue(Basler_GigECameraParams::BalanceWhiteAuto_Off);
+        }
+
         // Remove all previous settings (sequencer etc.)
         // Default Setting = Free-Running
         cam_->UserSetSelector.SetValue(Basler_GigECameraParams::UserSetSelector_Default);

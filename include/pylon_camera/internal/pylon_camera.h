@@ -71,6 +71,8 @@ public:
 
     virtual bool setShutterMode(const pylon_camera::SHUTTER_MODE& mode);
 
+    virtual void setBalanceWhite(const std::string& balance_white);
+
     virtual bool setROI(const sensor_msgs::RegionOfInterest target_roi,
                         sensor_msgs::RegionOfInterest& reached_roi);
     
@@ -147,6 +149,7 @@ public:
 
 protected:
     typedef typename CameraTraitT::CBaslerInstantCameraT CBaslerInstantCameraT;
+    typedef typename CameraTraitT::BalanceWhiteAutoEnums BalanceWhiteAutoEnums;
     typedef typename CameraTraitT::ExposureAutoEnums ExposureAutoEnums;
     typedef typename CameraTraitT::GainAutoEnums GainAutoEnums;
     typedef typename CameraTraitT::PixelFormatEnums PixelFormatEnums;

@@ -129,6 +129,12 @@ public:
     virtual bool setShutterMode(const pylon_camera::SHUTTER_MODE& mode) = 0;
 
     /**
+     * Mode of white balance.
+       * @param balance_white the target white balance
+     */
+    virtual void setBalanceWhite(const std::string& balance_white) = 0;
+
+    /**
      * Update area of interest in the camera image
      * @param target_roi the target roi
      * @param reached_roi the roi that could be set
