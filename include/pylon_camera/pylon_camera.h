@@ -99,6 +99,8 @@ public:
      */
     virtual bool applyCamSpecificStartupSettings(const PylonCameraParameter& parameters) = 0;
 
+    virtual void set_pgi_mode(const PylonCameraParameter& parameters) = 0;
+
     /**
      * Initializes the internal parameters of the PylonCamera instance.
      * @param parameters The PylonCameraParameter set to use

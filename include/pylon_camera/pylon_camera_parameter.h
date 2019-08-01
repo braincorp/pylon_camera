@@ -289,6 +289,11 @@ public:
      */
     bool auto_flash_line_3_;
 
+
+    bool pgi_;
+    double sharpness_enhancement_;
+    double noice_reduction_;
+
 protected:
     /**
      * Validates the parameter set found on the ros parameter server.

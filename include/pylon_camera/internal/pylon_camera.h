@@ -63,6 +63,8 @@ public:
 
     virtual bool applyCamSpecificStartupSettings(const PylonCameraParameter& parameters);
 
+    virtual void set_pgi_mode(const PylonCameraParameter& parameters);
+
     virtual bool startGrabbing(const PylonCameraParameter& parameters);
 
     virtual bool grab(std::vector<uint8_t>& image);

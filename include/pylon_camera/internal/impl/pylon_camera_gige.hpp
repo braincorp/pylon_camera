@@ -233,6 +233,9 @@ bool PylonGigECamera::applyCamSpecificStartupSettings(const PylonCameraParameter
     return true;
 }
 
+template <>
+void PylonGigECamera::set_pgi_mode(const PylonCameraParameter& parameters)
+{}
 
 template <>
 bool PylonGigECamera::setupSequencer(const std::vector<float>& exposure_times,

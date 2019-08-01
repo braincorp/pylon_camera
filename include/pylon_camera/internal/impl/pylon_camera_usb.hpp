@@ -135,6 +135,59 @@ bool PylonUSBCamera::applyCamSpecificStartupSettings(const PylonCameraParameter&
     return true;
 }
 
+
+template <>
+void PylonUSBCamera::set_pgi_mode(const PylonCameraParameter& parameters)
+{
+    if ( parameters.pgi_ )
+    {
+        if ( parameters.imageEncoding().rfind("bayer", 0) == 0 )
+        {
+            ROS_WARN_STREAM("encoding " << parameters.imageEncoding()
+                    << "does not support PGI and will not be enabled");
+            return;
+        }
+
+        try
+        {
+            // Enable the PGI feature set
+            if ( parameters.imageEncoding().rfind("mono", 0) == 0 )
+            {
+                if ( GenApi::IsAvailable(cam_->PgiMode) )
+                {
+                    cam_->PgiMode.SetValue(Basler_UsbCameraParams::PgiMode_On);
+                }
+                else
+                {
+                    ROS_ERROR_STREAM("Camera does not support PGI");
+                    return;
+                }
+            }
+            else
+            {
+                if ( GenApi::IsAvailable(cam_->DemosaicingMode) )
+                {
+                    cam_->DemosaicingMode.SetValue(Basler_UsbCameraParams::DemosaicingMode_BaslerPGI);
+                }
+                else
+                {
+                    ROS_ERROR_STREAM("Camera does not support PGI");
+                    return;
+                }
+            }
+            // Configure noise reduction (if available)
+            cam_->NoiseReduction.SetValue(parameters.noice_reduction_);
+            cam_->SharpnessEnhancement.SetValue(parameters.sharpness_enhancement_);
+        }
+        catch ( const GenICam::GenericException &e )
+        {
+            ROS_ERROR_STREAM("Error while configuring PGI: " << parameters.imageEncoding()
+                    << e.GetDescription());
+            return;
+        }
+    }
+}
+
 template <>
 bool PylonUSBCamera::setupSequencer(const std::vector<float>& exposure_times,
                                     std::vector<float>& exposure_times_set)
