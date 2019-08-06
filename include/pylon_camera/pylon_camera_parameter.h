@@ -292,7 +292,7 @@ public:
 
     bool pgi_;
     double sharpness_enhancement_;
-    double noice_reduction_;
+    double noise_reduction_;
 
 protected:
     /**

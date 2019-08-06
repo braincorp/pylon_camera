@@ -176,7 +176,7 @@ void PylonUSBCamera::set_pgi_mode(const PylonCameraParameter& parameters)
                 }
             }
             // Configure noise reduction (if available)
-            cam_->NoiseReduction.SetValue(parameters.noice_reduction_);
+            cam_->NoiseReduction.SetValue(parameters.noise_reduction_);
             cam_->SharpnessEnhancement.SetValue(parameters.sharpness_enhancement_);
         }
         catch ( const GenICam::GenericException &e )

@@ -45,7 +45,7 @@ frame_rate: 5.0
 
 #  The pgi flag indicates that PGI will be used (Mono: PGI mode to on, color: DemosaicingMode to BaslerPGI)
 # pgi: true
-# noice_reduction: 0.0
+# noise_reduction: 0.0
 # sharpness_enhancement: 1.0
 
 ##########################################################################

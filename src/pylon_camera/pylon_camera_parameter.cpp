@@ -41,7 +41,7 @@ PylonCameraParameter::PylonCameraParameter() :
         image_encoding_(""),
         balance_white_(""),
         pgi_(false),
-        noice_reduction_(0.0),
+        noise_reduction_(0.0),
         sharpness_enhancement_(1.0),
         binning_x_(1),
         binning_y_(1),
@@ -160,10 +160,10 @@ void PylonCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
         nh.getParam("pgi", pgi_);
         std::cout << "PGI is on" << std::endl;
 
-        if ( nh.hasParam("noice_reduction") )
+        if ( nh.hasParam("noise_reduction") )
         {
-            nh.getParam("noice_reduction", noice_reduction_);
-            std::cout << "noice reduction set to" << noice_reduction_ << std::endl;
+            nh.getParam("noise_reduction", noise_reduction_);
+            std::cout << "noise reduction set to" << noise_reduction_ << std::endl;
         }
 
         if ( nh.hasParam("sharpness_enhancement") )
