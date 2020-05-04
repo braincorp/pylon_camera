@@ -53,6 +53,7 @@ struct USBCameraTrait
     typedef double AutoTargetBrightnessValueType;
     typedef Basler_UsbCameraParams::ShutterModeEnums ShutterModeEnums;
     typedef Basler_UsbCameraParams::UserOutputSelectorEnums UserOutputSelectorEnums;
+    typedef Basler_UsbCameraParams::BalanceRatioSelectorEnums BalanceRatioSelectorEnums;
 
     static inline AutoTargetBrightnessValueType convertBrightness(const int& value)
     {
@@ -182,6 +183,39 @@ void PylonUSBCamera::set_pgi_mode(const PylonCameraParameter& parameters)
         catch ( const GenICam::GenericException &e )
         {
             ROS_ERROR_STREAM("Error while configuring PGI: " << parameters.imageEncoding()
+                    << e.GetDescription());
+            return;
+        }
+    }
+}
+
+template <>
+void PylonUSBCamera::setWhiteBalanceRatios(const PylonCameraParameter& parameters)
+{
+    // TODO: Check for auto white balance and raise a warning if it is enabled
+    
+    if ( parameters.balance_ratio_ )
+    {
+        try
+        {
+            if ( GenApi::IsAvailable(cam_->BalanceRatioSelector) && GenApi::IsAvailable(cam_->BalanceRatio) )
+            {
+                cam_->BalanceRatioSelector.SetValue(BalanceRatioSelectorEnums::BalanceRatioSelector_Red);
+                cam_->BalanceRatio.SetValue(parameters.balance_red_);
+                cam_->BalanceRatioSelector.SetValue(BalanceRatioSelectorEnums::BalanceRatioSelector_Green);
+                cam_->BalanceRatio.SetValue(parameters.balance_green_);
+                cam_->BalanceRatioSelector.SetValue(BalanceRatioSelectorEnums::BalanceRatioSelector_Blue);
+                cam_->BalanceRatio.SetValue(parameters.balance_blue_);
+            }
+            else
+            {
+                ROS_WARN_STREAM("Trying to set white balance R,G,B channels, but "
+                    << "BalanceRatio is unavailable for this camera");
+            }
+        }
+        catch ( const GenICam::GenericException &e )
+        {
+            ROS_ERROR_STREAM("Error while configuring white balance ratios: "
                     << e.GetDescription());
             return;
         }

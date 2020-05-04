@@ -43,6 +43,10 @@ PylonCameraParameter::PylonCameraParameter() :
         pgi_(false),
         noise_reduction_(0.0),
         sharpness_enhancement_(1.0),
+        balance_ratio_(false),
+        balance_red_(1.0),
+        balance_green_(1.0),
+        balance_blue_(1.0),
         binning_x_(1),
         binning_y_(1),
         binning_x_given_(false),
@@ -170,6 +174,45 @@ void PylonCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
         {
             nh.getParam("sharpness_enhancement", sharpness_enhancement_);
             std::cout << "sharpness enhancement set to" << sharpness_enhancement_ << std::endl;
+        }
+    }
+    
+    if ( nh.hasParam("balance_ratio") )
+    {
+        nh.getParam("balance_ratio", balance_ratio_);
+        std::cout << "Setting white balance channels individually" << std::endl;
+        
+        if ( nh.hasParam("balance_red") )
+        {
+            nh.getParam("balance_red", balance_red_);
+            if (balance_red_ < 0 || balance_red_ > 16)
+            {
+                ROS_WARN_STREAM("Desired red balance " << balance_red_
+                    << "not in range! Will reset it to 1.0");
+            }
+            std::cout << "White balance red channel is " << balance_red_ << std::endl;
+        }
+        
+        if ( nh.hasParam("balance_green") )
+        {
+            nh.getParam("balance_green", balance_green_);
+            if (balance_green_ < 0 || balance_green_ > 16)
+            {
+                ROS_WARN_STREAM("Desired green balance " << balance_green_
+                    << "not in range! Will reset it to 1.0");
+            }
+            std::cout << "White balance green channel is " << balance_green_ << std::endl;
+        }
+        
+        if ( nh.hasParam("balance_blue") )
+        {
+            nh.getParam("balance_blue", balance_blue_);
+            if (balance_blue_ < 0 || balance_blue_ > 16)
+            {
+                ROS_WARN_STREAM("Desired blue balance " << balance_blue_
+                    << "not in range! Will reset it to 1.0");
+            }
+            std::cout << "White balance blue channel is " << balance_blue_ << std::endl;
         }
     }
 
