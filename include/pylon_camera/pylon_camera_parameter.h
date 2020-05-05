@@ -293,6 +293,11 @@ public:
     bool pgi_;
     double sharpness_enhancement_;
     double noise_reduction_;
+    
+    bool balance_ratio_;
+    double balance_red_;
+    double balance_green_;
+    double balance_blue_;
 
 protected:
     /**

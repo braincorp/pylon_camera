@@ -64,6 +64,8 @@ public:
     virtual bool applyCamSpecificStartupSettings(const PylonCameraParameter& parameters);
 
     virtual void set_pgi_mode(const PylonCameraParameter& parameters);
+    
+    virtual void setWhiteBalanceRatios(const PylonCameraParameter& parameters);
 
     virtual bool startGrabbing(const PylonCameraParameter& parameters);
 
@@ -160,6 +162,7 @@ protected:
     typedef typename CameraTraitT::GainType GainType;
     typedef typename CameraTraitT::ShutterModeEnums ShutterModeEnums;
     typedef typename CameraTraitT::UserOutputSelectorEnums UserOutputSelectorEnums;
+    typedef typename CameraTraitT::BalanceRatioSelectorEnums BalanceRatioSelectorEnums;
 
     CBaslerInstantCameraT* cam_;
 

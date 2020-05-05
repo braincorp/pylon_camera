@@ -56,6 +56,7 @@ struct GigECameraTrait
     typedef Basler_GigECamera::LineSelectorEnums LineSelectorEnums;
     typedef Basler_GigECamera::LineModeEnums LineModeEnums;
     typedef Basler_GigECamera::LineSourceEnums LineSourceEnums;
+    typedef Basler_GigECameraParams::BalanceRatioSelectorEnums BalanceRatioSelectorEnums;
 
     static inline AutoTargetBrightnessValueType convertBrightness(const int& value)
     {
@@ -235,6 +236,10 @@ bool PylonGigECamera::applyCamSpecificStartupSettings(const PylonCameraParameter
 
 template <>
 void PylonGigECamera::set_pgi_mode(const PylonCameraParameter& parameters)
+{}
+
+template <>
+void PylonGigECamera::setWhiteBalanceRatios(const PylonCameraParameter& parameters)
 {}
 
 template <>
