@@ -63,8 +63,6 @@ catkin_package(
 #    include/${PROJECT_NAME}/internal/impl/${PROJECT_NAME}_usb.hpp
 #)
 
-roslaunch_add_file_check(launch)
-
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${catkin_INCLUDE_DIRS}
