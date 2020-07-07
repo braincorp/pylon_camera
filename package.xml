@@ -28,7 +28,7 @@
   <build_depend>diagnostic_updater</build_depend>
   <build_depend>image_geometry</build_depend>
   <build_depend>image_transport</build_depend>
-  <build_depend>pylon</build_depend>
+  <!--build_depend>pylon</build_depend-->  <!--rosdep can't find it-->
   <build_depend>roscpp</build_depend>
   <build_depend>sensor_msgs</build_depend>
   <build_depend>roslaunch</build_depend>
@@ -42,7 +42,7 @@
   <run_depend>cv_bridge</run_depend>
   <run_depend>image_geometry</run_depend>
   <run_depend>image_transport</run_depend>
-  <run_depend>pylon</run_depend>
+  <!--run_depend>pylon</run_depend-->  <!--rosdep can't find it-->
   <run_depend>roscpp</run_depend>
   <run_depend>roslaunch</run_depend>
   <run_depend>sensor_msgs</run_depend>
