@@ -83,16 +83,19 @@ void PylonCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
     nh.param<std::string>("camera_frame", camera_frame_, "pylon_camera");
 
     nh.param<std::string>("device_user_id", device_user_id_, "");
+    std::cout << "device_user_id is " << device_user_id_ << std::endl;
 
     if ( nh.hasParam("frame_rate") )
     {
         nh.getParam("frame_rate", frame_rate_);
+        std::cout << "frame_rate is given and has value " << frame_rate_ << std::endl;
     }
 
     nh.param<std::string>("camera_info_url", camera_info_url_, "");
     if ( nh.hasParam("camera_info_url") )
     {
         nh.getParam("camera_info_url", camera_info_url_);
+        std::cout << "camera_info_url is given and has value " << camera_info_url_ << std::endl;
     }
 
     binning_x_given_ = nh.hasParam("binning_x");
@@ -139,6 +142,7 @@ void PylonCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
     {
         std::string encoding;
         nh.getParam("image_encoding", encoding);
+        std::cout << "image_encoding is given and has value " << image_encoding_ << std::endl;
         if ( !encoding.empty() &&
              !sensor_msgs::image_encodings::isMono(encoding) &&
              !sensor_msgs::image_encodings::isColor(encoding) &&
@@ -167,13 +171,13 @@ void PylonCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
         if ( nh.hasParam("noise_reduction") )
         {
             nh.getParam("noise_reduction", noise_reduction_);
-            std::cout << "noise reduction set to" << noise_reduction_ << std::endl;
+            std::cout << "noise reduction set to " << noise_reduction_ << std::endl;
         }
 
         if ( nh.hasParam("sharpness_enhancement") )
         {
             nh.getParam("sharpness_enhancement", sharpness_enhancement_);
-            std::cout << "sharpness enhancement set to" << sharpness_enhancement_ << std::endl;
+            std::cout << "sharpness enhancement set to " << sharpness_enhancement_ << std::endl;
         }
     }
     
@@ -284,11 +288,13 @@ void PylonCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
     if ( nh.hasParam("gige/mtu_size") )
     {
         nh.getParam("gige/mtu_size", mtu_size_);
+        std::cout << "gige/mtu_size is given and has value " << mtu_size_ << std::endl;
     }
 
     if ( nh.hasParam("gige/inter_pkg_delay") )
     {
         nh.getParam("gige/inter_pkg_delay", inter_pkg_delay_);
+        std::cout << "gige/inter_pkg_delay is given and has value " << inter_pkg_delay_ << std::endl;
     }
 
     std::string shutter_param_string;
@@ -316,6 +322,40 @@ void PylonCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
 
     ROS_WARN("Autoflash: %i, line2: %i , line3: %i ", auto_flash_, auto_flash_line_2_, auto_flash_line_3_);
     validateParameterSet(nh);
+    std::cout << "camera_frame: " << camera_frame_ << "\n"
+              << "device_user_id: " << device_user_id_ << "\n"
+              << "frame_rate: " << frame_rate_ << "\n"
+              << "camera_info_url: " << camera_info_url_ << "\n"
+              << "image_encoding: " << image_encoding_ << "\n"
+              << "balance_white: " << balance_white_ << "\n"
+              << "noise_reduction: " << noise_reduction_ << "\n"
+              << "sharpness_enhancement: " << sharpness_enhancement_ << "\n"
+              << "balance_ratio: " << balance_ratio_ << "\n"
+              << "balance_red: " << balance_red_ << "\n"
+              << "balance_green: " << balance_green_ << "\n"
+              << "balance_blue: " << balance_blue_ << "\n"
+              << "binning_x: " << binning_x_ << "\n"
+              << "binning_y: " << binning_y_ << "\n"
+              << "binning_x_given: " << binning_x_given_ << "\n"
+              << "binning_y_given: " << binning_y_given_ << "\n"
+              << "downsampling_factor_exp_search: " << downsampling_factor_exp_search_ << "\n"
+              << "exposure: " << exposure_ << "\n"
+              << "exposure_given: " << exposure_given_ << "\n"
+              << "gain: " << gain_ << "\n"
+              << "gain_given: " << gain_given_ << "\n"
+              << "gamma: " << gamma_ << "\n"
+              << "gamma_given: " << gamma_given_ << "\n"
+              << "brightness: " << brightness_ << "\n"
+              << "brightness_given: " << brightness_given_ << "\n"
+              << "brightness_continuous: " << brightness_continuous_ << "\n"
+              << "exposure_auto: " << exposure_auto_ << "\n"
+              << "gain_auto: " << gain_auto_ << "\n"
+              << "exposure_search_timeout: " << exposure_search_timeout_ << "\n"
+              << "auto_exp_upper_lim: " << auto_exp_upper_lim_ << "\n"
+              << "mtu_size: " << mtu_size_ << "\n"
+              << "inter_pkg_delay: " << inter_pkg_delay_ << "\n"
+              << "shutter_mode: " << shutter_mode_ << "\n"
+              << "auto_flash: " << auto_flash_ << std::endl;
     return;
 }
 
